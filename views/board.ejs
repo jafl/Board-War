@@ -47,6 +47,7 @@ function(Y)
 {
 	var base_url = 'http://<%- host %>:<%- port %>/';
 	var game_url;
+	var player = {};
 
 	var socket   = io.connect(base_url);
 	socket.on('connect', function()
@@ -107,12 +108,6 @@ function(Y)
 				},
 				'#hide-admin');
 
-				Y.on('click', function()
-				{
-					socket.emit('end-game');
-				},
-				'#end-game');
-
 				Y.one('#copy-game-url')
 					.plug(Y.ClipBoard, { moviepath: '/' })
 					.on('clipboard:load', function()
@@ -128,7 +123,44 @@ function(Y)
 						},
 						true);
 					});
+
+				Y.on('click', function()
+				{
+					socket.emit('end-game');
+				},
+				'#end-game');
+
+				Y.delegate('click', function()
+				{
+					var id = this.get('id');
+					socket.emit('delete-player', id.replace('remove-player-', ''));
+					Y.one('#'+id).ancestor('li').remove();
+				},
+				'#admin-player-list', 'button');
 			}
+		});
+
+		socket.on('new-player', function(data)
+		{
+			if (player[ data.id ])
+			{
+				return;
+			}
+
+			player[ data.id ] = data;
+			if (admin)
+			{
+				Y.one('#admin-player-list').append(Y.Lang.sub('<li><button type="button" id="remove-player-{id}">X</button> {name}</li>',
+				{
+					id:   data.id,
+					name: data.name
+				}));
+			}
+		});
+
+		socket.on('delete-player', function(id)
+		{
+			delete player[id];
 		});
 
 		socket.on('end-game', function()
@@ -157,6 +189,11 @@ function(Y)
 	</div>
 	<div id="admin-bd">
 		Game url:<br><span id="url"></span>
+		<br><br>
+		<p>
+			Players:
+			<ul id="admin-player-list"></ul>
+		</p>
 		<br><br>
 		<button type="button" id="end-game">End game</button>
 	</div>

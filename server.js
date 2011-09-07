@@ -46,7 +46,26 @@ var game_config =
 
 var games = {};
 
-	// TODO: cull games older than 24 hours
+var game_cull_interval = 24 * 3600 * 1000;	// 1 day (ms)
+setInterval(function()
+{
+	var limit = new Date().getTime() - game_cull_interval;
+	var dead  = [];
+	Y.each(games, function(g, id)
+	{
+		if (g.ping.getTime() < limit)
+		{
+			dead.push(id);
+		}
+	});
+
+	Y.each(dead, function(id)
+	{
+		console.log('game ' + id + ' cancelled');
+		delete games[id];
+	});
+},
+3600 * 1000);	// 1 hour (ms)
 
 // server
 
@@ -146,13 +165,14 @@ io.sockets.on('connection', function(socket)
 
 		game.ping = new Date();
 
-		var admin = false;
+		var admin = false, rejoin = false;
 		if (id && game.player[id])
 		{
 			player_id     = id;
 			player        = game.player[ player_id ];
 			player.socket = socket;
 			admin         = player.admin;
+			rejoin        = true;
 		}
 		else
 		{
@@ -175,14 +195,40 @@ io.sockets.on('connection', function(socket)
 
 		console.log('player "' + player.name + '" connected' + (admin ? ' as admin' : '') + ' to game ' + game_id);
 		socket.emit('welcome', player_id, admin);
+
+		socket.broadcast.emit('new-player',
+		{
+			id:    player_id,
+			name:  player.name,
+			admin: player.admin
+		});
+
+		if (rejoin)
+		{
+			Y.each(game.player, function(p, id)
+			{
+				if (id != player_id)
+				{
+					socket.emit('new-player',
+					{
+						id:    id,
+						name:  p.name,
+						admin: p.admin
+					});
+				}
+			});
+		}
 	});
 
 	socket.on('delete-player', function(id)
 	{
 		if (game && game.player[id])
 		{
-			console.log('player "' + game.player[id].name + '" disconnected from game ' + game_id);
+			console.log('player "' + game.player[id].name + '" ejected from game ' + game_id);
+			game.player[id].socket.emit('end-game');
 			delete game.player[id];
+
+			socket.broadcast.emit('delete-player', id);
 		}
 	});
 
