@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title><%= title %></title>
+	<meta http-equiv=content-type content="text/html; charset=utf-8">
+
+	<script src="http://yui.yahooapis.com/3.4.0/build/yui/yui-min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssreset/reset-min.css" />
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssfonts/fonts-min.css" />
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssbase/base-min.css" />
+
+	<style type="text/css">
+	body { margin:5px; }
+	body #info,
+	body #connect,
+	body #board { display:none; }
+	body.connect #connect { display:block; }
+	body.admin #info,
+	body.admin #board,
+	body.player #board { display:block; }
+
+	#info { float:right; }
+	#show-admin { float:right; }
+	#admin { display:none; position:fixed; width:95%; height:95%; z-index:1000; border: 1px solid black; }
+	#admin-hd { background-color: #CCC; border-bottom: 1px solid black; padding:3px; font-weight: bold; }
+	#admin-bd { background-color: white; height: 95%; }
+	#hide-admin { float:right; }
+
+	.formmgr-message-text { display:none; }
+	.formmgr-haserror .formmgr-message-text { display:block; }
+	</style>
+</head>
+
+<body class="yui3-skin-sam">
+
+<script type="text/javascript">
+YUI({
+//	filter:'raw',combine:false,
+	gallery: 'gallery-2011.08.24-23-44'
+}).use(
+	'io', 'node-style',
+	'gallery-formmgr', 'gallery-clipboard',
+function(Y)
+{
+	var base_url = 'http://<%- host %>:<%- port %>/';
+	var game_url;
+
+	var socket   = io.connect(base_url);
+	socket.on('connect', function()
+	{
+		var game_id     = '<%- game_id %>';
+		var player_id   = '<%- player_id %>';
+		var player_name = '<%- player_name %>';
+		var admin       = false;
+
+		socket.emit('init', game_id);
+		socket.on('init', function(id)
+		{
+			game_id = id;
+			if (player_name)
+			{
+				socket.emit('hello', player_name, player_id);
+				return;
+			}
+
+			Y.one('body').addClass('connect');
+
+			var f = new Y.FormManager('connect_form');
+			f.prepareForm();
+			f.initFocus();
+
+			Y.one('#connect-form').on('submit', function(e)
+			{
+				e.halt();
+				if (f.validateForm())
+				{
+					socket.emit('hello', Y.one('#player-name').get('value'), player_id);
+				}
+			});
+		});
+
+		socket.on('welcome', function(id, _admin)
+		{
+			player_id = id;
+			admin     = _admin;
+			game_url  = base_url + '?game_id=' + game_id;
+
+			Y.io(base_url + 'create-cookie?game_id=' + game_id + '&player_id=' + player_id);
+
+			Y.one('body').replaceClass('connect', admin ? 'admin' : 'player');
+			if (admin)
+			{
+				Y.one('#url').set('innerHTML', game_url);
+
+				Y.on('click', function()
+				{
+					Y.one('#admin').setStyle('display', 'block');
+				},
+				'#show-admin');
+
+				Y.on('click', function()
+				{
+					Y.one('#admin').setStyle('display', 'none');
+				},
+				'#hide-admin');
+
+				Y.on('click', function()
+				{
+					socket.emit('end-game');
+				},
+				'#end-game');
+
+				Y.one('#copy-game-url')
+					.plug(Y.ClipBoard, { moviepath: '/' })
+					.on('clipboard:load', function()
+					{
+						this.on('mouseover', function()
+						{
+							this.setAttribute('copy', game_url);
+						});
+
+						this.clipboard.setEvent('click', function()
+						{
+							this.clipboard.hide();
+						},
+						true);
+					});
+			}
+		});
+
+		socket.on('end-game', function()
+		{
+			Y.io(base_url + 'clear-cookie',
+			{
+				on: { complete: function()
+				{
+					window.location = admin ? base_url : 'http://wizwar.com/';
+				}}
+			});
+		});
+	});
+});
+</script>
+
+<div id="info">
+	<button type="button" id="show-admin">Manage game</button><br>
+	<button type="button" id="copy-game-url">Copy game url</button>
+</div>
+
+<div id="admin">
+	<div id="admin-hd">
+		<button type="button" id="hide-admin">Done</button>
+		Admin Panel
+	</div>
+	<div id="admin-bd">
+		Game url:<br><span id="url"></span>
+		<br><br>
+		<button type="button" id="end-game">End game</button>
+	</div>
+</div>
+
+<h1><%= title %></h1>
+
+<div id="connect">
+	<form id="connect-form" name="connect_form">
+		<div class="formmgr-row">
+			<p><label for="player-name">Please enter your name:</label></p>
+			<p>
+				<input type="text" id="player-name" class="formmgr-field yiv-required" />
+				<input type="submit" value="Connect" />
+			</p>
+			<p class="formmgr-message-text"></p>
+		</div>
+	</form>
+</div>
+
+<div id="board">
+</div>
+
+</body>
+
+</html>

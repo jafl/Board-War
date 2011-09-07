@@ -1,0 +1,8 @@
+Game engine built on NodeJS that supports a class of games which includes
+WizWar.
+
+The engine is turn-based.  Each player starts with a basic  set of
+abilities and objects and obtains additional abilities, modifiers, and
+objects from a pool.  The player's stats, abilities, modifiers, objects,
+pool behavior, non-player characters, and victory conditions are all
+defined via configuration and JavaScript code snippets.
