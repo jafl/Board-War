@@ -1,7 +1,3 @@
-admin must start game:  button on control panel
-
-
-
 board is fixed number of sections partitioned into cells (squares, hexes, etc) by non-zero-size boundaries
 	each cell and boundary is an object
 		positioned in game coordinates

@@ -193,8 +193,8 @@ io.sockets.on('connection', function(socket)
 			};
 		}
 
-		console.log('player "' + player.name + '" connected' + (admin ? ' as admin' : '') + ' to game ' + game_id);
-		socket.emit('welcome', player_id, admin);
+		console.log('player "' + player.name + '" ' + (rejoin ? 're-' : '') + 'connected' + (admin ? ' as admin' : '') + ' to game ' + game_id);
+		socket.emit('welcome', player_id, admin, game.running);
 
 		socket.broadcast.emit('new-player',
 		{
@@ -230,6 +230,13 @@ io.sockets.on('connection', function(socket)
 
 			socket.broadcast.emit('delete-player', id);
 		}
+	});
+
+	socket.on('start-game', function()
+	{
+		console.log('game ' + game_id + ' started');
+		game.running = true;
+		socket.broadcast.emit('start-game');
 	});
 
 	socket.on('end-game', function()

@@ -24,10 +24,14 @@
 
 	#info { float:right; }
 	#show-admin { float:right; }
-	#admin { display:none; position:fixed; width:95%; height:95%; z-index:1000; border: 1px solid black; }
-	#admin-hd { background-color: #CCC; border-bottom: 1px solid black; padding:3px; font-weight: bold; }
-	#admin-bd { background-color: white; height: 95%; }
 	#hide-admin { float:right; }
+	#admin { display:none; position:fixed; width:95%; height:95%; z-index:1000; border:1px solid black; }
+	#admin-hd { background-color:#CCC; border-bottom:1px solid black; padding:3px; font-weight:bold; }
+	#admin-bd { background-color:white; height:95%; }
+	#game-url { font-weight:bold; }
+	#copy-game-url { margin-left:10px; }
+	#admin-player-list li { list-style-type:none; }
+	.delete-player { margin-right:10px; }
 
 	.formmgr-message-text { display:none; }
 	.formmgr-haserror .formmgr-message-text { display:block; }
@@ -46,7 +50,7 @@ YUI({
 function(Y)
 {
 	var base_url = 'http://<%- host %>:<%- port %>/';
-	var game_url;
+	var game   = {};
 	var player = {};
 
 	var socket   = io.connect(base_url);
@@ -83,18 +87,20 @@ function(Y)
 			});
 		});
 
-		socket.on('welcome', function(id, _admin)
+		socket.on('welcome', function(id, _admin, running)
 		{
-			player_id = id;
-			admin     = _admin;
-			game_url  = base_url + '?game_id=' + game_id;
+			player_id    = id;
+			admin        = _admin;
+			game.url     = base_url + '?game_id=' + game_id;
+			game.running = running;
 
 			Y.io(base_url + 'create-cookie?game_id=' + game_id + '&player_id=' + player_id);
 
 			Y.one('body').replaceClass('connect', admin ? 'admin' : 'player');
 			if (admin)
 			{
-				Y.one('#url').set('innerHTML', game_url);
+				Y.one('#admin').setStyle('display', 'block');
+				Y.one('#game-url').set('innerHTML', game.url);
 
 				Y.on('click', function()
 				{
@@ -109,12 +115,13 @@ function(Y)
 				'#hide-admin');
 
 				Y.one('#copy-game-url')
-					.plug(Y.ClipBoard, { moviepath: '/' })
+					.plug(Y.ClipBoard, { moviepath: '/', page: Y.one('#admin-bd') })
 					.on('clipboard:load', function()
 					{
 						this.on('mouseover', function()
 						{
-							this.setAttribute('copy', game_url);
+						console.log('clipboard:mouseover');
+							this.setAttribute('copy', game.url);
 						});
 
 						this.clipboard.setEvent('click', function()
@@ -124,12 +131,6 @@ function(Y)
 						true);
 					});
 
-				Y.on('click', function()
-				{
-					socket.emit('end-game');
-				},
-				'#end-game');
-
 				Y.delegate('click', function()
 				{
 					var id = this.get('id');
@@ -137,23 +138,44 @@ function(Y)
 					Y.one('#'+id).ancestor('li').remove();
 				},
 				'#admin-player-list', 'button');
+
+				if (game.running)
+				{
+					Y.one('#start-game').setStyle('display', 'none');
+				}
+				else
+				{
+					Y.on('click', function()
+					{
+						socket.emit('start-game');
+						Y.one('#start-game').setStyle('display', 'none');
+						Y.one('#admin').setStyle('display', 'none');
+					},
+					'#start-game');
+				}
+
+				Y.on('click', function()
+				{
+					socket.emit('end-game');
+				},
+				'#end-game');
 			}
 		});
 
-		socket.on('new-player', function(data)
+		socket.on('new-player', function(p)
 		{
-			if (player[ data.id ])
+			if (player[ p.id ])
 			{
 				return;
 			}
 
-			player[ data.id ] = data;
+			player[ p.id ] = p;
 			if (admin)
 			{
-				Y.one('#admin-player-list').append(Y.Lang.sub('<li><button type="button" id="remove-player-{id}">X</button> {name}</li>',
+				Y.one('#admin-player-list').append(Y.Lang.sub('<li><button type="button" class="delete-player" id="remove-player-{id}">X</button>{name}</li>',
 				{
-					id:   data.id,
-					name: data.name
+					id:   p.id,
+					name: p.name
 				}));
 			}
 		});
@@ -161,6 +183,11 @@ function(Y)
 		socket.on('delete-player', function(id)
 		{
 			delete player[id];
+		});
+
+		socket.on('start-game', function()
+		{
+			game.running = true;
 		});
 
 		socket.on('end-game', function()
@@ -178,8 +205,7 @@ function(Y)
 </script>
 
 <div id="info">
-	<button type="button" id="show-admin">Manage game</button><br>
-	<button type="button" id="copy-game-url">Copy game url</button>
+	<button type="button" id="show-admin">Manage game</button>
 </div>
 
 <div id="admin">
@@ -188,14 +214,18 @@ function(Y)
 		Admin Panel
 	</div>
 	<div id="admin-bd">
-		Game url:<br><span id="url"></span>
-		<br><br>
+		<p>
+			Game url: <span id="game-url"></span>
+			<button type="button" id="copy-game-url">Copy game url</button>
+		</p>
 		<p>
 			Players:
 			<ul id="admin-player-list"></ul>
 		</p>
-		<br><br>
-		<button type="button" id="end-game">End game</button>
+		<p>
+			<button type="button" id="start-game">Start game</button>
+			<button type="button" id="end-game">End game</button>
+		</p>
 	</div>
 </div>
 
