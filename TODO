@@ -1,0 +1,52 @@
+admin must start game:  button on control panel
+
+
+
+board is fixed number of sections partitioned into cells (squares, hexes, etc) by non-zero-size boundaries
+	each cell and boundary is an object
+		positioned in game coordinates
+		scale factor maps game coordinates to canvas coordinates
+	boundary extends one width past edge of cell
+	line of sight: two triangles; find cells/boundaries with vertices in both triangles; check if each contains sight-blocking object
+		wrap-around must be done as warps
+		click to move:  if line-of-sight
+		drop attack power on player:  attack can check line-of-sight
+
+objects in a cell
+	player
+	treasure, key, fire, trap, large stone, etc, etc
+objects on a cell boundary
+	wall, door, fire, portal (for wrapping)
+
+player
+	stats
+		movement: 1, action: 1, hit points: 1, max pool items: 1
+	move to adjacent cell
+		check if boundary allows it
+		decrement movement
+	pick up/use/drop object; use power
+		can modify any stat
+	modifier: drop on stat or power (no undo), increments power pool-count
+	turn finished when action goes to zero or player presses Done
+	trade powers/modifiers/objects
+power
+	stats
+		pool-count:1
+	counteraction: chance to defend against attack
+object
+	stats
+		pool-count:1
+	pick-up: if implemented, then drop is also allowed, even if not implemented
+	throw: if implemented
+
+wizwar
+	intrinsic action:  1 hit point attack
+	pick up any object decrements action by 1
+	user max pool items: 7
+	user hit points: 15
+	user movement: 3
+	only one modifier per power or stat, per turn
+	max 1 treasure, no throw, treasure pool-count:0
+	max 1 attack per turn
+	wall: 20 hit points
+	door: 15 hit points

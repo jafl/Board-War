@@ -6,3 +6,31 @@ abilities and objects and obtains additional abilities, modifiers, and
 objects from a pool.  The player's stats, abilities, modifiers, objects,
 pool behavior, non-player characters, and victory conditions are all
 defined via configuration and JavaScript code snippets.
+
+---
+
+Installation
+
+Install nodejs:
+
+  * On OS X, use macports: port install nodejs
+
+Install nodejs packages:
+
+  npm install yui3 socket.io express ejs long-stack-traces
+
+---
+
+Usage
+
+Start the server:
+
+  cd Board-War
+  node server.js path-to-game-config [-p port] [-d]
+
+Connect from the browser:
+
+  http://server-uri/
+
+Type your player name and press return, and you will enter the game.  The
+first player is the admin who controls the player list and starts the game.
