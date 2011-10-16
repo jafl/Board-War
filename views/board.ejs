@@ -62,6 +62,10 @@ function(Y)
 		var admin       = false;
 
 		socket.emit('init', game_id);
+		socket.on('server-full', function()
+		{
+		});
+
 		socket.on('init', function(id)
 		{
 			game_id = id;

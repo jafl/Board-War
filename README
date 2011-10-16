@@ -1,11 +1,17 @@
-Game engine built on NodeJS that supports a class of games which includes
-WizWar.
+Game engine built on NodeJS that supports a diverse class of games
+including TicTacToe, Monopoly, WizWar, and miniatures war gaming.
 
-The engine is turn-based.  Each player starts with a basic  set of
-abilities and objects and obtains additional abilities, modifiers, and
-objects from a pool.  The player's stats, abilities, modifiers, objects,
-pool behavior, non-player characters, and victory conditions are all
-defined via configuration and JavaScript code snippets.
+The engine is turn-based.  Each player starts with a basic set of abilities
+and objects and obtains additional abilities, modifiers, and objects from a
+pool.  The player's stats, abilities, modifiers, objects, pool behavior,
+non-player characters, and victory conditions are all defined via
+configuration and JavaScript code snippets.
+
+The engine does not provide any chat capabilities.  Instant Messaging
+clients already provide all the necessary functionality.  Access to IM
+clients also makes it hopeless to restrict in-game communication, no matter
+how interesting it would be for game balance, so the engine does not try to
+foster any illusions.
 
 ---
 

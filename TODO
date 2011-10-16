@@ -1,12 +1,65 @@
+deck
+	express, ejs, socket.io
+	code org:  propagating closure variables from io.sockets.on to modules
+
+generate board (fully connected):
+	NxM squares
+	hex: N rows x M cols (rows move straight)
+	hex: N cols x M rows (cols move straight)
+
+	squares:
+		xxx
+		x x
+		xxx
+
+	hex cols:
+		-_-
+		-_-
+		-_-
+
+	hex rows:
+		[[[
+		]]]
+		[[[
+
+games:
+	tic-tac-toe:  each player gets 6 markers that can be placed
+	tactickle:    each player has 4 NPC's to move
+	both:
+		minPlayers = maxPlayers = 2
+		admin cannot start game until correct number of players
+
+
+
 board is fixed number of sections partitioned into cells (squares, hexes, etc) by non-zero-size boundaries
 	each cell and boundary is an object
 		positioned in game coordinates
+		boundary extends one width past edge of cell
 		scale factor maps game coordinates to canvas coordinates
-	boundary extends one width past edge of cell
-	line of sight: two triangles; find cells/boundaries with vertices in both triangles; check if each contains sight-blocking object
-		wrap-around must be done as warps
+	cell has ordered set of vertices
+		draw faint lines from one vertex to next and finally back to first
+	boundary is union of two edge connectors
+		must conform to 2D plane geometry to allow line-of-sight
+		wrap-around board
+			if enabled, can reposition board origin anywhere inside canvas
+			if cell more than 1/2 outside canvas boundary, wrap around
+				draw boundary in both locations
+			boundary connectors must conform to 2D toroidal geometry
+				anything else must be done as warp
+	line-of-sight
+		two triangles
+			find cells/boundaries with vertices in both triangles
+			check if each contains sight-blocking object
 		click to move:  if line-of-sight
 		drop attack power on player:  attack can check line-of-sight
+
+	drop object on board
+		find all containing polygons, sort ascending by area
+			need polygon-contains algorithm for hex grid
+		check smallest one first
+			drop on square with thornbush:
+				if doesn't affect bush, can drop in square
+		connectors are invisible, but still are drop targets
 
 objects in a cell
 	player
