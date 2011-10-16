@@ -1,6 +1,11 @@
 deck
+	wanted to learn NodeJS
+		don't believe in toy examples
+		build something I've always wanted
 	express, ejs, socket.io
-	code org:  propagating closure variables from io.sockets.on to modules
+	code org:
+		propagating closure variables from io.sockets.on to modules
+		namespacing messages, so I know which file to look in
 
 generate board (fully connected):
 	NxM squares

@@ -53,7 +53,7 @@ function(Y)
 	var game   = {};
 	var player = {};
 
-	var socket   = io.connect(base_url);
+	var socket = io.connect(base_url);
 	socket.on('connect', function()
 	{
 		var game_id     = '<%- game_id %>';
@@ -61,17 +61,19 @@ function(Y)
 		var player_name = '<%- player_name %>';
 		var admin       = false;
 
-		socket.emit('init', game_id);
-		socket.on('server-full', function()
+		socket.emit('game:init', game_id);
+		socket.on('game:server-full', function()
 		{
+			alert('The server cannot host any more games at this time.  Please try again later.');
+			window.location = 'http://wizwar.com/';
 		});
 
-		socket.on('init', function(id)
+		socket.on('game:init', function(id)
 		{
 			game_id = id;
 			if (player_name)
 			{
-				socket.emit('hello', player_name, player_id);
+				socket.emit('game:hello', player_name, player_id);
 				return;
 			}
 
@@ -86,12 +88,12 @@ function(Y)
 				e.halt();
 				if (f.validateForm())
 				{
-					socket.emit('hello', Y.one('#player-name').get('value'), player_id);
+					socket.emit('game:hello', Y.one('#player-name').get('value'), player_id);
 				}
 			});
 		});
 
-		socket.on('welcome', function(id, _admin, running)
+		socket.on('game:welcome', function(id, _admin, running)
 		{
 			player_id    = id;
 			admin        = _admin;
@@ -138,7 +140,7 @@ function(Y)
 				Y.delegate('click', function()
 				{
 					var id = this.get('id');
-					socket.emit('delete-player', id.replace('remove-player-', ''));
+					socket.emit('game:delete-player', id.replace('remove-player-', ''));
 					Y.one('#'+id).ancestor('li').remove();
 				},
 				'#admin-player-list', 'button');
@@ -151,7 +153,7 @@ function(Y)
 				{
 					Y.on('click', function()
 					{
-						socket.emit('start-game');
+						socket.emit('game:start');
 						Y.one('#start-game').setStyle('display', 'none');
 						Y.one('#admin').setStyle('display', 'none');
 					},
@@ -160,13 +162,13 @@ function(Y)
 
 				Y.on('click', function()
 				{
-					socket.emit('end-game');
+					socket.emit('game:end');
 				},
 				'#end-game');
 			}
 		});
 
-		socket.on('new-player', function(p)
+		socket.on('game:new-player', function(p)
 		{
 			if (player[ p.id ])
 			{
@@ -184,17 +186,17 @@ function(Y)
 			}
 		});
 
-		socket.on('delete-player', function(id)
+		socket.on('game:delete-player', function(id)
 		{
 			delete player[id];
 		});
 
-		socket.on('start-game', function()
+		socket.on('game:start', function()
 		{
 			game.running = true;
 		});
 
-		socket.on('end-game', function()
+		socket.on('game:end', function()
 		{
 			Y.io(base_url + 'clear-cookie',
 			{

@@ -43,7 +43,7 @@ exports.configureSocket = function(
 	/* map */		games,
 	/* map */		ctx)
 {
-	socket.on('init', function(id)
+	socket.on('game:init', function(id)
 	{
 		ctx.game_id = id;
 		if (!ctx.game_id && game_count < game_config.max_games)
@@ -64,26 +64,26 @@ exports.configureSocket = function(
 		else if (!ctx.game_id)
 		{
 			console.log('rejected connection because server already has %d games', game_config.max_games);
-			socket.emit('server-full');
+			socket.emit('game:server-full');
 			return;
 		}
 
 		ctx.game = games[ ctx.game_id ];
 		if (!ctx.game)
 		{
-			socket.emit('end-game');
+			socket.emit('game:end');
 			socket.disconnect();
 			return;
 		}
 
-		socket.emit('init', ctx.game_id);
+		socket.emit('game:init', ctx.game_id);
 	});
 
-	socket.on('hello', function(name, id)
+	socket.on('game:hello', function(name, id)
 	{
 		if (!ctx.game)
 		{
-			socket.emit('end-game');
+			socket.emit('game:end');
 			socket.disconnect();
 			return;
 		}
@@ -119,9 +119,9 @@ exports.configureSocket = function(
 		}
 
 		console.log('player "%s" %sconnected%s to game %s', ctx.player.name, rejoin ? 're-' : '', admin ? ' as admin' : '', ctx.game_id);
-		socket.emit('welcome', ctx.player_id, admin, ctx.game.running);
+		socket.emit('game:welcome', ctx.player_id, admin, ctx.game.running);
 
-		socket.broadcast.emit('new-player',
+		socket.broadcast.emit('game:new-player',
 		{
 			id:    ctx.player_id,
 			name:  ctx.player.name,
@@ -134,7 +134,7 @@ exports.configureSocket = function(
 			{
 				if (id != ctx.player_id)
 				{
-					socket.emit('new-player',
+					socket.emit('game:new-player',
 					{
 						id:    id,
 						name:  p.name,
@@ -145,26 +145,26 @@ exports.configureSocket = function(
 		}
 	});
 
-	socket.on('delete-player', function(id)
+	socket.on('game:delete-player', function(id)
 	{
 		if (ctx.game && ctx.game.player[id])
 		{
 			console.log('player "%s" ejected from game %s', ctx.game.player[id].name, ctx.game_id);
-			ctx.game.player[id].socket.emit('end-game');
+			ctx.game.player[id].socket.emit('game:end');
 			delete ctx.game.player[id];
 
-			socket.broadcast.emit('delete-player', id);
+			socket.broadcast.emit('game:delete-player', id);
 		}
 	});
 
-	socket.on('start-game', function()
+	socket.on('game:start', function()
 	{
 		console.log('game %s started', ctx.game_id);
 		ctx.game.running = true;
-		socket.broadcast.emit('start-game');
+		socket.broadcast.emit('game:start');
 	});
 
-	socket.on('end-game', function()
+	socket.on('game:end', function()
 	{
 		if (ctx.game)
 		{
@@ -174,7 +174,7 @@ exports.configureSocket = function(
 
 			Y.each(ctx.game.player, function(p)
 			{
-				p.socket.emit('end-game');
+				p.socket.emit('game:end');
 			});
 		}
 	});

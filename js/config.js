@@ -48,14 +48,7 @@ exports.load = function(
 
 	// player
 
-	try
-	{
-		data = fs.readFileSync(path + '/player', 'utf-8');
-	}
-	catch (ex)
-	{
-		data = '';
-	}
+	data = fs.readFileSync(path + '/player', 'utf-8');
 
 	config.min_players = number('min', data, 2);
 	config.max_players = number('max', data, 8);
