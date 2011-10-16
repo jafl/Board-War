@@ -27,7 +27,7 @@ exports.init = function(
 
 		Y.each(dead, function(id)
 		{
-			console.log('game ' + id + ' cancelled');
+			console.log('game %s cancelled', id);
 			delete games[id];
 			game_count--;
 		});
@@ -59,11 +59,11 @@ exports.configureSocket = function(
 
 			ctx.player_id = util.guid();	// so we know it's admin
 
-			console.log('game ' + ctx.game_id + ' started');
+			console.log('game %s started', ctx.game_id);
 		}
 		else if (!ctx.game_id)
 		{
-			console.log('rejected connection because server already has ' + game_config.max_games + ' games');
+			console.log('rejected connection because server already has %d games', game_config.max_games);
 			socket.emit('server-full');
 			return;
 		}
@@ -118,7 +118,7 @@ exports.configureSocket = function(
 			};
 		}
 
-		console.log('player "' + ctx.player.name + '" ' + (rejoin ? 're-' : '') + 'connected' + (admin ? ' as admin' : '') + ' to game ' + ctx.game_id);
+		console.log('player "%s" %sconnected%s to game %s', ctx.player.name, rejoin ? 're-' : '', admin ? ' as admin' : '', ctx.game_id);
 		socket.emit('welcome', ctx.player_id, admin, ctx.game.running);
 
 		socket.broadcast.emit('new-player',
@@ -149,7 +149,7 @@ exports.configureSocket = function(
 	{
 		if (ctx.game && ctx.game.player[id])
 		{
-			console.log('player "' + ctx.game.player[id].name + '" ejected from game ' + ctx.game_id);
+			console.log('player "%s" ejected from game %s', ctx.game.player[id].name, ctx.game_id);
 			ctx.game.player[id].socket.emit('end-game');
 			delete ctx.game.player[id];
 
@@ -159,7 +159,7 @@ exports.configureSocket = function(
 
 	socket.on('start-game', function()
 	{
-		console.log('game ' + ctx.game_id + ' started');
+		console.log('game %s started', ctx.game_id);
 		ctx.game.running = true;
 		socket.broadcast.emit('start-game');
 	});
@@ -168,7 +168,7 @@ exports.configureSocket = function(
 	{
 		if (ctx.game)
 		{
-			console.log('game ' + ctx.game_id + ' ended');
+			console.log('game %s ended', ctx.game_id);
 			delete games[ ctx.game_id ];
 			game_count--;
 
@@ -191,7 +191,7 @@ exports.configureSocket = function(
 
 			if (count === 0)
 			{
-				console.log('game ' + ctx.game_id + ' cancelled');
+				console.log('game %s cancelled', ctx.game_id);
 				delete games[ ctx.game_id ];
 				game_count--;
 			}

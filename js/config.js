@@ -2,7 +2,8 @@ var YUI = require('yui3').YUI;
 YUI().use('json', function(Y)
 {
 
-var fs = require('fs');
+var fs    = require('fs'),
+	board = require('./board.js');
 
 function string(
 	/* string */ name,
@@ -16,13 +17,18 @@ function string(
 }
 
 function number(
-	/* string */ name,
-	/* string */ data)
+	/* string */	name,
+	/* string */	data,
+	/* int */		default_value)
 {
 	var s = string(name, data);
 	if (!Y.Lang.isUndefined(s))
 	{
 		return parseInt(s, 10);
+	}
+	else
+	{
+		return default_value;
 	}
 }
 
@@ -42,19 +48,23 @@ exports.load = function(
 
 	// player
 
-	data = fs.readFileSync(path + '/player', 'utf-8');
+	try
+	{
+		data = fs.readFileSync(path + '/player', 'utf-8');
+	}
+	catch (ex)
+	{
+		data = '';
+	}
 
-	config.min_players = number('min', data);
-	config.max_players = number('max', data);
+	config.min_players = number('min', data, 2);
+	config.max_players = number('max', data, 8);
 
 	// board
 
 	data = Y.Lang.trim(fs.readFileSync(path + '/board', 'utf-8')).split('\n');
 
-	var board_type   = data[0];
-	var board_layout = data[1];
-
-	config.board =
+	config.board = board.create(data);
 	{
 		
 	};
