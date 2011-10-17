@@ -1,6 +1,6 @@
 var YUI = require('yui3').YUI;
-YUI().use('json', function(Y)
-{
+YUI().use('json', function(Y) {
+"use strict";
 
 var fs    = require('fs'),
 	board = require('./board.js');
@@ -58,9 +58,6 @@ exports.load = function(
 	data = Y.Lang.trim(fs.readFileSync(path + '/board', 'utf-8')).split('\n');
 
 	config.board = board.create(data);
-	{
-		
-	};
 
 	return config;
 };

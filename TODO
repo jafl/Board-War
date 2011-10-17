@@ -4,7 +4,7 @@ deck
 		build something I've always wanted
 	express, ejs, socket.io
 	code org:
-		propagating closure variables from io.sockets.on to modules
+		propagating closure variables from io.sockets.on to modules: client & server
 		namespacing messages, so I know which file to look in
 
 generate board (fully connected):

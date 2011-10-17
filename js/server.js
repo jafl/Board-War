@@ -22,7 +22,7 @@ exports.createServer = function(
 			game_id = '';
 		}
 
-		res.render('board.ejs',
+		res.render('client.ejs',
 		{
 			host:        debug ? 'localhost' : os.hostname(),
 			port:        port,

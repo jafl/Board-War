@@ -1,6 +1,6 @@
 var YUI = require('yui3').YUI;
-YUI().use('json', function(Y)
-{
+YUI().use('json', function(Y) {
+"use strict";
 
 var util = require('./util.js');
 
@@ -120,6 +120,8 @@ exports.configureSocket = function(
 
 		console.log('player "%s" %sconnected%s to game %s', ctx.player.name, rejoin ? 're-' : '', admin ? ' as admin' : '', ctx.game_id);
 		socket.emit('game:welcome', ctx.player_id, admin, ctx.game.running);
+
+		socket.emit('game:board', game_config.board);
 
 		socket.broadcast.emit('game:new-player',
 		{

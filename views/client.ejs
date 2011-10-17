@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title><%= title %></title>
+	<meta http-equiv=content-type content="text/html; charset=utf-8">
+
+	<script src="http://yui.yahooapis.com/3.4.0/build/yui/yui-min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/game.js"></script>
+	<script src="/board.js"></script>
+	<script src="/admin.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssreset/reset-min.css" />
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssfonts/fonts-min.css" />
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.0/build/cssbase/base-min.css" />
+
+	<style type="text/css">
+	body { margin:5px; }
+	body #info,
+	body #connect,
+	body #board { display:none; }
+	body.connect #connect { display:block; }
+	body.admin #info,
+	body.admin #board,
+	body.player #board { display:block; }
+
+	#info { float:right; }
+	#show-admin { float:right; }
+	#hide-admin { float:right; }
+	#admin { display:none; position:fixed; width:95%; height:95%; z-index:1000; border:1px solid black; }
+	#admin-hd { background-color:#CCC; border-bottom:1px solid black; padding:3px; font-weight:bold; }
+	#admin-bd { background-color:white; height:95%; }
+	#game-url { font-weight:bold; }
+	#copy-game-url { margin-left:10px; }
+	#admin-player-list li { list-style-type:none; }
+	.delete-player { margin-right:10px; }
+
+	.formmgr-message-text { display:none; }
+	.formmgr-haserror .formmgr-message-text { display:block; }
+	</style>
+</head>
+
+<body class="yui3-skin-sam">
+
+<div id="info">
+	<button type="button" id="show-admin">Manage game</button>
+</div>
+
+<div id="admin">
+	<div id="admin-hd">
+		<button type="button" id="hide-admin">Done</button>
+		<p>Admin Panel</p>
+	</div>
+	<div id="admin-bd">
+		<p>
+			Game url: <span id="game-url"></span>
+			<button type="button" id="copy-game-url">Copy game url</button>
+		</p>
+		<p>
+			Players:
+			<ul id="admin-player-list"></ul>
+		</p>
+		<p>
+			<button type="button" id="start-game">Start game</button>
+			<button type="button" id="end-game">End game</button>
+		</p>
+	</div>
+</div>
+
+<h1><%= title %></h1>
+
+<div id="connect">
+	<form id="connect-form" name="connect_form">
+		<div class="formmgr-row">
+			<p><label for="player-name">Please enter your name:</label></p>
+			<p>
+				<input type="text" id="player-name" class="formmgr-field yiv-required" />
+				<input type="submit" value="Connect" />
+			</p>
+			<p class="formmgr-message-text"></p>
+		</div>
+	</form>
+</div>
+
+<div id="board"></div>
+
+<script type="text/javascript">
+YUI({
+//	filter:'raw',combine:false,
+	gallery: 'gallery-2011.08.24-23-44'
+}).use(
+	'bw-game',
+function(Y) {
+"use strict";
+
+	var ctx =
+	{
+		game:        {},
+		player:      {},
+		game_id:     '<%- game_id %>',
+		player_id:   '<%- player_id %>',
+		player_name: '<%- player_name %>',
+		admin:       false,
+
+		home_url: 'http://wizwar.com/',
+		base_url: 'http://<%- host %>:<%- port %>/',
+
+		admin_player_list_tmpl:
+			'<li><button type="button" class="delete-player" id="remove-player-{id}">X</button>{name}</li>'
+	};
+
+	var socket = io.connect(ctx.base_url);
+	socket.on('connect', function()
+	{
+		Y.BW.Game.configureSocket(socket, ctx);
+	});
+});
+</script>
+
+</body>
+
+</html>
