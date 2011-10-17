@@ -3,7 +3,7 @@ YUI.add('bw-board', function(Y) {
 
 Y.namespace('BW.Board');
 
-var canvas_max_size = 500;
+var canvas_max_size = 400;
 
 Y.BW.Board.init = function(
 	/* object */	board,
@@ -11,21 +11,25 @@ Y.BW.Board.init = function(
 {
 	ctx.game.board = board;
 
-	var w = 0, h = 0;
+	var xmin = 0, xmax = 0, ymin = 0, ymax = 0;
 	Y.each(board, function(obj)
 	{
-		w = Math.max(w, obj.x + obj.w);
-		h = Math.max(h, obj.y + obj.h);
+		xmin = Math.min(xmin, obj.x);
+		xmax = Math.max(xmax, obj.x + obj.w);
+		ymin = Math.min(ymin, obj.y);
+		ymax = Math.max(ymax, obj.y + obj.h);
 	});
 
-	var scale = Math.min(canvas_max_size/w, canvas_max_size/h);
+	var scale = Math.min(canvas_max_size/(xmax-xmin), canvas_max_size/(ymax-ymin));
 
-	w = Math.ceil(w * scale);
-	h = Math.ceil(h * scale);
+	var w = Math.ceil((xmax-xmin) * scale);
+	var h = Math.ceil((ymax-ymin) * scale);
 
 	ctx.canvas =
 	{
 		node:  Y.Node.create('<canvas width="'+w+'" height="'+h+'"></canvas>'),
+		xoff:  Math.round(-xmin * scale),
+		yoff:  Math.round(-ymin * scale),
 		scale: scale
 	};
 	Y.one('#board').appendChild(ctx.canvas.node);
@@ -42,17 +46,20 @@ var draw =
 		var c = ctx.canvas.context;
 		var s = ctx.canvas.scale;
 
+		c.set('fillStyle', '#EEE');
+		c.fillRect(obj.x * s, obj.y * s, obj.w * s, obj.h * s);
+
 		c.set('strokeStyle', '#999');
-		c.beginPath();
-		c.moveTo(obj.x * s, obj.y * s);
-		c.poly(
-		[
-			{ dx:  obj.w * s },
-			{ dy:  obj.h * s },
-			{ dx: -obj.w * s },
-			{ dy: -obj.h * s }
-		]);
-		c.stroke();
+		c.strokeRect(obj.x * s, obj.y * s, obj.w * s, obj.h * s);
+	},
+
+	boundary: function(obj, ctx)
+	{
+		var c = ctx.canvas.context;
+		var s = ctx.canvas.scale;
+
+		c.set('fillStyle', '#444');
+		c.fillRect(obj.x * s, obj.y * s, obj.w * s, obj.h * s);
 	}
 };
 
@@ -61,14 +68,24 @@ Y.BW.Board.render = function(
 {
 	var board = ctx.game.board;
 
+	var c = ctx.canvas.context
+	c.save();
+	c.translate(ctx.canvas.xoff, ctx.canvas.yoff);
+
 	Y.each(board, function(obj)
 	{
+		c.save();
+
 		var f = draw[ obj.type ];
 		if (f)
 		{
 			f(obj, ctx);
 		}
+
+		c.restore();
 	});
+
+	c.restore();
 }
 
 }, '@VERSION@', {requires:['node', 'gallery-canvas']});

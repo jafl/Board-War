@@ -89,6 +89,58 @@ function createSquares(
 		}
 	}
 
+	// horizontal boundaries
+
+	for (var x=0; x<w; x++)
+	{
+		board.push(
+		{
+			type: 'boundary',
+			x:    x - 2*connector_half_width,
+			y:    - 2*connector_half_width,
+			w:    1 + 4*connector_half_width,
+			h:    2*connector_half_width
+		});
+	}
+
+	for (var x=0; x<w; x++)
+	{
+		board.push(
+		{
+			type: 'boundary',
+			x:    x - 2*connector_half_width,
+			y:    h,
+			w:    1 + 4*connector_half_width,
+			h:    2*connector_half_width
+		});
+	}
+
+	// vertical boundaries
+
+	for (var y=0; y<h; y++)
+	{
+		board.push(
+		{
+			type: 'boundary',
+			x:    - 2*connector_half_width,
+			y:    y - 2*connector_half_width,
+			w:    2*connector_half_width,
+			h:    1 + 4*connector_half_width
+		});
+	}
+
+	for (var y=0; y<h; y++)
+	{
+		board.push(
+		{
+			type: 'boundary',
+			x:    w,
+			y:    y - 2*connector_half_width,
+			w:    2*connector_half_width,
+			h:    1 + 4*connector_half_width
+		});
+	}
+
 	return board;
 }
 

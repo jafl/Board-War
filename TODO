@@ -7,9 +7,18 @@ deck
 		propagating closure variables from io.sockets.on to modules: client & server
 		namespacing messages, so I know which file to look in
 
+
+admin cannot start game until correct number of players
+server rejects connections beyond max # of players
+server must provide code for drawing objects
+
+
+games:
+	tic-tac-toe:  each player gets 6 markers that can be placed
+	tactickle:    each player has 4 NPC's to move
+
+
 generate board (fully connected):
-	NxM squares
-	hex: N rows x M cols (rows move straight)
 	hex: N cols x M rows (cols move straight)
 
 	squares:
@@ -17,34 +26,21 @@ generate board (fully connected):
 		x x
 		xxx
 
-	hex cols:
+	hex:
 		-_-
 		-_-
 		-_-
 
-	hex rows:
-		[[[
-		]]]
-		[[[
-
-games:
-	tic-tac-toe:  each player gets 6 markers that can be placed
-	tactickle:    each player has 4 NPC's to move
-	both:
-		minPlayers = maxPlayers = 2
-		admin cannot start game until correct number of players
-
-
-
-board is fixed number of sections partitioned into cells (squares, hexes, etc) by non-zero-size boundaries
-	each cell and boundary is an object
+board is fixed number of sections partitioned into cells (squares, hexes, etc)
++	non-zero-size boundaries
++	each cell and boundary is an object
 		positioned in game coordinates
 		boundary extends one width past edge of cell
 		scale factor maps game coordinates to canvas coordinates
-	cell has ordered set of vertices
++	cell has ordered set of vertices
 		draw faint lines from one vertex to next and finally back to first
 	boundary is union of two edge connectors
-		must conform to 2D plane geometry to allow line-of-sight
++		must conform to 2D plane geometry to allow line-of-sight
 		wrap-around board
 			if enabled, can reposition board origin anywhere inside canvas
 			if cell more than 1/2 outside canvas boundary, wrap around
