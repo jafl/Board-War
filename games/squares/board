@@ -1,2 +1,18 @@
 square
-3x3
+10x6
+
+%%
+
+draw.floor = new Image();
+draw.floor.src = ctx.images[ 'floor_tile.jpeg' ];
+
+draw.square = function(obj, ctx)
+{
+	var c = ctx.canvas.context;
+	var s = ctx.canvas.scale;
+
+	c.drawImage(draw.floor, obj.x * s, obj.y * s, obj.w * s, obj.h * s);
+
+	c.set('strokeStyle', '#999');
+	c.strokeRect(obj.x * s, obj.y * s, obj.w * s, obj.h * s);
+};

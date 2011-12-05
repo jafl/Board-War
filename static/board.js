@@ -6,10 +6,14 @@ Y.namespace('BW.Board');
 var canvas_max_size = 400;
 
 Y.BW.Board.init = function(
-	/* object */	board,
-	/* map */		ctx)
+	/* array */	data,
+	/* map */	ctx)
 {
-	ctx.game.board = board;
+	var board = ctx.game.board = data[0];
+	if (data[1])
+	{
+		eval(data[1]);
+	}
 
 	var xmin = 0, xmax = 0, ymin = 0, ymax = 0;
 	Y.each(board, function(obj)

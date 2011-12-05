@@ -7,11 +7,10 @@ pool.  The player's stats, abilities, modifiers, objects, pool behavior,
 non-player characters, and victory conditions are all defined via
 configuration and JavaScript code snippets.
 
-The engine does not provide any chat capabilities.  Instant Messaging
-clients already provide all the necessary functionality.  Access to IM
-clients also makes it hopeless to restrict in-game communication, no matter
-how interesting it would be for game balance, so the engine does not try to
-foster any illusions.
+The engine provides rudimentary chat capabilities for people using tablets.
+Access to IM clients makes it hopeless to restrict in-game communication,
+no matter how interesting it would be for game balance, so the engine does
+not try to foster any illusions.
 
 ---
 
@@ -23,7 +22,7 @@ Install nodejs:
 
 Install nodejs packages:
 
-  npm install yui3 socket.io express ejs long-stack-traces
+  npm install yui3 socket.io express ejs optimist long-stack-traces
 
 ---
 
@@ -32,7 +31,7 @@ Usage
 Start the server:
 
   cd Board-War
-  node server.js path-to-game-config [-p port] [-d]
+  node boardwar.js -c path-to-game-config [-p port] [-d]
 
 Connect from the browser:
 

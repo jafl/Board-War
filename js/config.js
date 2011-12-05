@@ -55,9 +55,30 @@ exports.load = function(
 
 	// board
 
-	data = Y.Lang.trim(fs.readFileSync(path + '/board', 'utf-8')).split('\n');
+	data = Y.Lang.trim(fs.readFileSync(path + '/board', 'utf-8')).split(/\s*%%\s*/);
 
-	config.board = board.create(data);
+	config.board      = board.create(data[0].split('\n'));
+	config.board_code = data[1];
+
+	// images -- send using data: format
+
+	config.images = {};
+
+	Y.each(fs.readdirSync(path), function(name)
+	{
+		var s = 'data:image/'
+		var m = /\.(jpg|jpeg|png|gif)$/.exec(name);
+		if (!m || !m.length)
+		{
+			return;
+		}
+
+		s += m[1];
+		s += ';base64,';
+		s += fs.readFileSync(path + '/' + name).toString('base64');
+
+		config.images[ name ] = s;
+	});
 
 	return config;
 };

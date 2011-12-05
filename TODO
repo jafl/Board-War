@@ -12,6 +12,8 @@ admin cannot start game until correct number of players
 server rejects connections beyond max # of players
 server must provide code for drawing objects
 
+need basic chat (to all or single) for tablets
+
 
 games:
 	tic-tac-toe:  each player gets 6 markers that can be placed

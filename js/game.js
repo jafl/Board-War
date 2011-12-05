@@ -121,7 +121,9 @@ exports.configureSocket = function(
 		console.log('player "%s" %sconnected%s to game %s', ctx.player.name, rejoin ? 're-' : '', admin ? ' as admin' : '', ctx.game_id);
 		socket.emit('game:welcome', ctx.player_id, admin, ctx.game.running);
 
-		socket.emit('game:board', game_config.board);
+		socket.emit('game:images', game_config.images);
+
+		socket.emit('game:board', [ game_config.board, game_config.board_code ]);
 
 		socket.broadcast.emit('game:new-player',
 		{
