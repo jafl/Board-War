@@ -18,11 +18,11 @@ Installation
 
 Install nodejs:
 
-  * On OS X, use macports: port install nodejs
+    * On OS X, use macports: port install nodejs
 
 Install nodejs packages:
 
-  npm install yui3 socket.io express ejs optimist long-stack-traces
+    npm install yui3 socket.io express ejs optimist long-stack-traces
 
 ---
 
@@ -30,12 +30,81 @@ Usage
 
 Start the server:
 
-  cd Board-War
-  node boardwar.js -c path-to-game-config [-p port] [-d]
+    cd Board-War
+    node boardwar.js -c path-to-game-config [-p port] [-d]
 
 Connect from the browser:
 
-  http://server-uri/
+    http://server-uri/
 
 Type your player name and press return, and you will enter the game.  The
 first player is the admin who controls the player list and starts the game.
+
+---
+
+Code Organization
+
+boardwar.js     Main server code
+client          Client modules
+    admin.js    Code used only when player is the game admin
+    board.js    Renders the game board
+    game.js     Socket messages related to game management
+games           Sample game configurations
+server          Server modules
+    boards.js   Initializes the game board
+    config.js   Loads game configuration
+    game.js     Socket messages related to game management
+    server.js   Configures the Express web server
+    util.js     Utility functions
+views           Client web pages
+    boardwar.js The web page with which players interact
+
+---
+
+Data Structures
+
+game_config stores all the configuration loaded from the game config
+directory:
+
+    title
+    home_url        url to which players should be redirected after game is finished
+    max_games       maximum number of simultaneous games to host
+    min_players
+    max_players
+    board           array of elements on the board
+    board_code      custom code for rendering board elements
+    images          map of images in img sub-directory: file name -> data: uri
+
+The state for each game is stored in an object:
+
+    ping            timestamp of last client message, for culling abandoned games
+    running         true if the game has been started
+    player          map of players
+        id
+        name
+        admin       true if player is game admin
+        socket
+
+Since the code is broken up into modules, the Socket IO handlers cannot use
+JavaScript closures to store session state.  Instead, everything is stored
+in a ctx object.
+
+On the server, ctx stores:
+
+    game_id
+    game        reference to object in games map
+    player_id
+    player      reference to object in game's player map
+
+On the client, ctx stores:
+
+    base_url        url of the server, used to start a game
+    home_url        url to which players are redirected after a game is finished
+    game_id
+    player_name
+    player_id
+    admin           true if player is game admin
+    game
+        url         url to which players should connect, to join the game
+        running     true if the game has been started
+    player          reference to player map

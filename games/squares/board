@@ -3,8 +3,7 @@ square
 
 %%
 
-draw.floor = new Image();
-draw.floor.src = ctx.images[ 'floor_tile.jpeg' ];
+draw.floor = document.getElementById('floor_tile.jpeg');
 
 draw.square = function(obj, ctx)
 {

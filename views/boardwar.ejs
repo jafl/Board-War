@@ -38,6 +38,8 @@
 
 	.formmgr-message-text { display:none; }
 	.formmgr-haserror .formmgr-message-text { display:block; }
+
+	#image-preload { display:none; }
 	</style>
 </head>
 
@@ -103,7 +105,7 @@ function(Y) {
 		player_name: '<%- player_name %>',
 		admin:       false,
 
-		home_url: 'http://wizwar.com/',
+		home_url: '<%- home_url %>',
 		base_url: 'http://<%- host %>:<%- port %>/',
 
 		admin_player_list_tmpl:
@@ -117,6 +119,18 @@ function(Y) {
 	});
 });
 </script>
+
+<div id="image-preload">
+<%
+	for (var name in img)
+	{
+		if (img.hasOwnProperty(name))
+		{
+			%><img id="<%- name %>" src="<%- img[name] %>"><%
+		}
+	}
+%>
+</div>
 
 </body>
 

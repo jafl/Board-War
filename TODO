@@ -10,7 +10,7 @@ deck
 
 admin cannot start game until correct number of players
 server rejects connections beyond max # of players
-server must provide code for drawing objects
+server rejects new connections to a game that has been started
 
 need basic chat (to all or single) for tablets
 

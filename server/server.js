@@ -10,7 +10,7 @@ exports.createServer = function(
 	var app = express.createServer();
 
 	app.use(express.cookieParser());
-	app.use(express.static(__dirname + '/../static'));
+	app.use(express.static(__dirname + '/../client'));
 
 	app.get('/', function(req, res)
 	{
@@ -22,7 +22,7 @@ exports.createServer = function(
 			game_id = '';
 		}
 
-		res.render('client.ejs',
+		res.render('boardwar.ejs',
 		{
 			host:        debug ? 'localhost' : os.hostname(),
 			port:        port,
@@ -30,6 +30,8 @@ exports.createServer = function(
 			game_id:     game_id,
 			player_id:   game_id && player_id,
 			player_name: game_id && games[ game_id ] && games[ game_id ].player[ player_id ] && games[ game_id ].player[ player_id ].name,
+			home_url:    game_config.home_url,
+			img:         game_config.images,
 			layout:      false
 		});
 	});

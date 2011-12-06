@@ -5,7 +5,7 @@ YUI().use('json', function(Y) {
 var fs    = require('fs'),
 	board = require('./board.js');
 
-function string(
+function raw_string(
 	/* string */ name,
 	/* string */ data)
 {
@@ -16,12 +16,19 @@ function string(
 	}
 }
 
+function string(
+	/* string */ name,
+	/* string */ data)
+{
+	return raw_string(name, data) || '';
+}
+
 function number(
 	/* string */	name,
 	/* string */	data,
 	/* int */		default_value)
 {
-	var s = string(name, data);
+	var s = raw_string(name, data);
 	if (!Y.Lang.isUndefined(s))
 	{
 		return parseInt(s, 10);
@@ -35,16 +42,15 @@ function number(
 exports.load = function(
 	/* string */ path)
 {
-	var config =
-	{
-		max_games: 10
-	};
+	var config = {};
 
 	// game
 
 	var data = fs.readFileSync(path + '/game', 'utf-8');
 
-	config.title = string('title', data);
+	config.title     = string('title', data);
+	config.home_url  = string('homeURL', data) || 'https://github.com/jafl/Board-War';
+	config.max_games = number('maxGames', data, 10);
 
 	// player
 
@@ -64,20 +70,15 @@ exports.load = function(
 
 	config.images = {};
 
-	Y.each(fs.readdirSync(path), function(name)
+	Y.each(fs.readdirSync(path + '/img'), function(name)
 	{
-		var s = 'data:image/'
-		var m = /\.(jpg|jpeg|png|gif)$/.exec(name);
-		if (!m || !m.length)
+		var m = /\.([^.]+)$/.exec(name);
+		if (m && m.length)
 		{
-			return;
+			config.images[ name ] =
+				'data:image/' + m[1] + ';base64,' +
+				fs.readFileSync(path + '/img/' + name).toString('base64');
 		}
-
-		s += m[1];
-		s += ';base64,';
-		s += fs.readFileSync(path + '/' + name).toString('base64');
-
-		config.images[ name ] = s;
 	});
 
 	return config;

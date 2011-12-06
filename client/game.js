@@ -56,11 +56,6 @@ Y.BW.Game.configureSocket = function(
 		}
 	});
 
-	socket.on('game:images', function(images)
-	{
-		ctx.images = images;
-	});
-
 	socket.on('game:board', function(data)
 	{
 		Y.BW.Board.init(data, ctx);
