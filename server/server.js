@@ -31,6 +31,7 @@ exports.createServer = function(
 			player_id:   game_id && player_id,
 			player_name: game_id && games[ game_id ] && games[ game_id ].player[ player_id ] && games[ game_id ].player[ player_id ].name,
 			home_url:    game_config.home_url,
+			css:         game_config.css,
 			img:         game_config.images,
 			layout:      false
 		});

@@ -66,6 +66,10 @@ exports.load = function(
 	config.board      = board.create(data[0].split('\n'));
 	config.board_code = data[1];
 
+	// styling
+
+	config.css = fs.readFileSync(path + '/style.css', 'utf-8')
+
 	// images -- send using data: format
 
 	config.images = {};

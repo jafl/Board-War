@@ -11,6 +11,8 @@ Each directory contains the configuration for a game.
 
 "player" defines player options as key:value pairs.
 
+"style.css" defines custom styles to apply in views/boardwar.ejs
+
 All files in the img sub-directory are automatically loaded into
 game_config.images as a map of file names to base64-encoded data: uri's.
 This map is sent to each client via <img> tags embedded in the page.  The

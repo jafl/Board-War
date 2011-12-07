@@ -73,6 +73,7 @@ directory:
     max_players
     board           array of elements on the board
     board_code      custom code for rendering board elements
+    css             custom CSS styles for rendering the application
     images          map of images in img sub-directory: file name -> data: uri
 
 The state for each game is stored in an object:
