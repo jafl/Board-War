@@ -18,11 +18,7 @@ not try to foster any illusions.
 Installation
 ------------
 
-Install nodejs:
-
-* On OS X, use macports: port install nodejs
-
-Install nodejs packages:
+Install nodejs and then install these packages:
 
     npm install yui3 socket.io express ejs optimist long-stack-traces
 
