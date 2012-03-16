@@ -44,20 +44,20 @@ first player is the admin who controls the player list and starts the game.
 Code Organization
 -----------------
 
-* boardwar.js     Main server code
-* client          Client modules
-    * admin.js    Code used only when player is the game admin
-    * board.js    Renders the game board
-    * game.js     Socket messages related to game management
-games           Sample game configurations
-server          Server modules
-    boards.js   Initializes the game board
-    config.js   Loads game configuration
-    game.js     Socket messages related to game management
-    server.js   Configures the Express web server
-    util.js     Utility functions
-views           Client web pages
-    boardwar.js The web page with which players interact
+    boardwar.js     Main server code
+    client          Client modules
+        admin.js    Code used only when player is the game admin
+        board.js    Renders the game board
+        game.js     Socket messages related to game management
+    games           Sample game configurations
+    server          Server modules
+        boards.js   Initializes the game board
+        config.js   Loads game configuration
+        game.js     Socket messages related to game management
+        server.js   Configures the Express web server
+        util.js     Utility functions
+    views           Client web pages
+        boardwar.js The web page with which players interact
 
 Data Structures
 ---------------
