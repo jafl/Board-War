@@ -20,7 +20,7 @@ Installation
 
 Install nodejs:
 
-    * On OS X, use macports: port install nodejs
+* On OS X, use macports: port install nodejs
 
 Install nodejs packages:
 
@@ -44,11 +44,11 @@ first player is the admin who controls the player list and starts the game.
 Code Organization
 -----------------
 
-boardwar.js     Main server code
-client          Client modules
-    admin.js    Code used only when player is the game admin
-    board.js    Renders the game board
-    game.js     Socket messages related to game management
+* boardwar.js     Main server code
+* client          Client modules
+    * admin.js    Code used only when player is the game admin
+    * board.js    Renders the game board
+    * game.js     Socket messages related to game management
 games           Sample game configurations
 server          Server modules
     boards.js   Initializes the game board
