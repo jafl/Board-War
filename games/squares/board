@@ -3,7 +3,7 @@ square
 
 %%
 
-draw.floor = document.getElementById('floor_tile.jpeg');
+draw.floor = Y.config.doc.getElementById('floor_tile.jpeg');
 
 draw.square = function(obj, ctx)
 {

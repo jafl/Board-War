@@ -1,3 +1,6 @@
+Board War
+=========
+
 Game engine built on NodeJS that supports a diverse class of games
 including TicTacToe, Monopoly, WizWar, and miniatures war gaming.
 
@@ -12,9 +15,8 @@ Access to IM clients makes it hopeless to restrict in-game communication,
 no matter how interesting it would be for game balance, so the engine does
 not try to foster any illusions.
 
----
-
 Installation
+------------
 
 Install nodejs:
 
@@ -24,9 +26,8 @@ Install nodejs packages:
 
     npm install yui3 socket.io express ejs optimist long-stack-traces
 
----
-
 Usage
+-----
 
 Start the server:
 
@@ -40,9 +41,8 @@ Connect from the browser:
 Type your player name and press return, and you will enter the game.  The
 first player is the admin who controls the player list and starts the game.
 
----
-
 Code Organization
+-----------------
 
 boardwar.js     Main server code
 client          Client modules
@@ -59,9 +59,8 @@ server          Server modules
 views           Client web pages
     boardwar.js The web page with which players interact
 
----
-
 Data Structures
+---------------
 
 game_config stores all the configuration loaded from the game config
 directory:
