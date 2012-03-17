@@ -1,5 +1,5 @@
 var YUI = require('yui3').YUI;
-YUI().use('json', function(Y) {
+YUI().use('oop', function(Y) {
 "use strict";
 
 var util = require('./util.js');
