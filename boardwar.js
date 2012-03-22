@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var YUI = require('yui3').YUI;
+var YUI = require('yui').YUI;
 YUI().use('json', function(Y)
 {
 

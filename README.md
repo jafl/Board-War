@@ -20,7 +20,8 @@ Installation
 
 Install nodejs and then install these packages:
 
-    npm install yui3 socket.io express ejs optimist long-stack-traces
+    cd Board-War
+    npm install yui socket.io express ejs optimist long-stack-traces
 
 Usage
 -----
