@@ -49,8 +49,8 @@ var app        = mod_server.createServer(argv.p, game_config, games, debug);
 
 // sockets
 
-var sio = require('socket.io'),
-	io  = sio.listen(app);
+var mod_io = require('socket.io'),
+	io     = mod_io.listen(app);
 
 io.set('log level', 1);
 

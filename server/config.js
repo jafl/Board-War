@@ -2,8 +2,8 @@ var YUI = require('yui').YUI;
 YUI({useSync: true}).use('oop', function(Y) {
 "use strict";
 
-var fs    = require('fs'),
-	board = require('./board.js');
+var mod_fs    = require('fs'),
+	mod_board = require('./board.js');
 
 function raw_string(
 	/* string */ name,
@@ -46,7 +46,7 @@ exports.load = function(
 
 	// game
 
-	var data = fs.readFileSync(path + '/game', 'utf-8');
+	var data = mod_fs.readFileSync(path + '/game', 'utf-8');
 
 	config.title     = string('title', data);
 	config.home_url  = string('homeURL', data) || 'https://github.com/jafl/Board-War';
@@ -54,27 +54,27 @@ exports.load = function(
 
 	// player
 
-	data = fs.readFileSync(path + '/player', 'utf-8');
+	data = mod_fs.readFileSync(path + '/player', 'utf-8');
 
 	config.min_players = number('min', data, 2);
 	config.max_players = number('max', data, 8);
 
 	// board
 
-	data = Y.Lang.trim(fs.readFileSync(path + '/board', 'utf-8')).split(/\s*%%\s*/);
+	data = Y.Lang.trim(mod_fs.readFileSync(path + '/board', 'utf-8')).split(/\s*%%\s*/);
 
-	config.board      = board.create(data[0].split('\n'));
+	config.board      = mod_board.create(data[0].split('\n'));
 	config.board_code = data[1];
 
 	// styling
 
-	config.css = fs.readFileSync(path + '/style.css', 'utf-8')
+	config.css = mod_fs.readFileSync(path + '/style.css', 'utf-8')
 
 	// images -- send using data: format
 
 	config.images = [];
 
-	Y.each(fs.readdirSync(path + '/img'), function(name)
+	Y.each(mod_fs.readdirSync(path + '/img'), function(name)
 	{
 		var m = /\.([^.]+)$/.exec(name);
 		if (m && m.length)
@@ -83,7 +83,7 @@ exports.load = function(
 			{
 				name: name,
 				data: 'data:image/' + m[1] + ';base64,' +
-						fs.readFileSync(path + '/img/' + name).toString('base64')
+						mod_fs.readFileSync(path + '/img/' + name).toString('base64')
 			});
 		}
 	});

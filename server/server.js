@@ -1,5 +1,5 @@
-var os      = require('os'),
-	express = require('express');
+var mod_os      = require('os'),
+	mod_express = require('express');
 
 exports.createServer = function(
 	/* int */	port,
@@ -7,10 +7,10 @@ exports.createServer = function(
 	/* map */	games,
 	/* bool */	debug)
 {
-	var app = express.createServer();
+	var app = mod_express.createServer();
 
-	app.use(express.cookieParser());
-	app.use(express.static(__dirname + '/../client'));
+	app.use(mod_express.cookieParser());
+	app.use(mod_express.static(__dirname + '/../client'));
 	app.set('view options', { layout: false });
 
 	app.get('/', function(req, res)
@@ -25,7 +25,7 @@ exports.createServer = function(
 
 		res.render('boardwar.hbs',
 		{
-			host:        debug ? 'localhost' : os.hostname(),
+			host:        debug ? 'localhost' : mod_os.hostname(),
 			port:        port,
 			title:       game_config.title,
 			game_id:     game_id,

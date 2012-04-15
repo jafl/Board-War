@@ -2,7 +2,7 @@ var YUI = require('yui').YUI;
 YUI({useSync: true}).use('oop', function(Y) {
 "use strict";
 
-var util = require('./util.js');
+var mod_bw_util = require('./util.js');
 
 var game_cull_interval = 24 * 3600 * 1000;	// 1 day (ms)
 
@@ -48,7 +48,7 @@ exports.configureSocket = function(
 		ctx.game_id = id;
 		if (!ctx.game_id && game_count < game_config.max_games)
 		{
-			ctx.game_id = util.guid();
+			ctx.game_id = mod_bw_util.guid();
 			games[ ctx.game_id ] =
 			{
 				start:  new Date(),
@@ -57,7 +57,7 @@ exports.configureSocket = function(
 			};
 			game_count++;
 
-			ctx.player_id = util.guid();	// so we know it's admin
+			ctx.player_id = mod_bw_util.guid();	// so we know it's admin
 
 			console.log('game %s started', ctx.game_id);
 		}
@@ -107,7 +107,7 @@ exports.configureSocket = function(
 			}
 			else
 			{
-				ctx.player_id = util.guid();
+				ctx.player_id = mod_bw_util.guid();
 			}
 
 			ctx.player = ctx.game.player[ ctx.player_id ] =
