@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title><%= title %></title>
+	<title>{{title}}</title>
 	<meta http-equiv=content-type content="text/html; charset=utf-8">
 
 	<script src="http://yui.yahooapis.com/3.4.0/build/yui/yui-min.js"></script>
@@ -41,7 +41,7 @@
 
 	#image-preload { display:none; }
 
-	<%- css %>
+	{{{css}}}
 	</style>
 </head>
 
@@ -72,7 +72,7 @@
 	</div>
 </div>
 
-<h1><%= title %></h1>
+<h1>{{title}}</h1>
 
 <div id="connect">
 	<form id="connect-form" name="connect_form">
@@ -102,13 +102,13 @@ function(Y) {
 	{
 		game:        {},
 		player:      {},
-		game_id:     '<%- game_id %>',
-		player_id:   '<%- player_id %>',
-		player_name: '<%- player_name %>',
+		game_id:     '{{{game_id}}}',
+		player_id:   '{{{player_id}}}',
+		player_name: '{{{player_name}}}',
 		admin:       false,
 
-		home_url: '<%- home_url %>',
-		base_url: 'http://<%- host %>:<%- port %>/',
+		home_url: '{{{home_url}}}',
+		base_url: 'http://{{{host}}}:{{{port}}}/',
 
 		admin_player_list_tmpl:
 			'<li><button type="button" class="delete-player" id="remove-player-{id}">X</button>{name}</li>'
@@ -123,15 +123,9 @@ function(Y) {
 </script>
 
 <div id="image-preload">
-<%
-	for (var name in img)
-	{
-		if (img.hasOwnProperty(name))
-		{
-			%><img id="<%- name %>" src="<%- img[name] %>"><%
-		}
-	}
-%>
+{{#img}}
+<img id="{{{name}}}" src="{{{data}}}">
+{{/img}}
 </div>
 
 </body>

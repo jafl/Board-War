@@ -1,5 +1,5 @@
-var YUI = require('yui3').YUI;
-YUI().use('oop', function(Y) {
+var YUI = require('yui').YUI;
+YUI({useSync: true}).use('oop', function(Y) {
 "use strict";
 
 var fs    = require('fs'),
@@ -72,16 +72,19 @@ exports.load = function(
 
 	// images -- send using data: format
 
-	config.images = {};
+	config.images = [];
 
 	Y.each(fs.readdirSync(path + '/img'), function(name)
 	{
 		var m = /\.([^.]+)$/.exec(name);
 		if (m && m.length)
 		{
-			config.images[ name ] =
-				'data:image/' + m[1] + ';base64,' +
-				fs.readFileSync(path + '/img/' + name).toString('base64');
+			config.images.push(
+			{
+				name: name,
+				data: 'data:image/' + m[1] + ';base64,' +
+						fs.readFileSync(path + '/img/' + name).toString('base64')
+			});
 		}
 	});
 

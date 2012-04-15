@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var YUI = require('yui').YUI;
-YUI().use('json', function(Y)
+YUI({useSync: true}).use('json', function(Y)
 {
 
 // options

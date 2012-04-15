@@ -21,7 +21,7 @@ Installation
 Install nodejs and then install these packages:
 
     cd Board-War
-    npm install yui socket.io express ejs optimist long-stack-traces
+    npm install yui socket.io express hbs optimist long-stack-traces
 
 Usage
 -----

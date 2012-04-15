@@ -11,6 +11,7 @@ exports.createServer = function(
 
 	app.use(express.cookieParser());
 	app.use(express.static(__dirname + '/../client'));
+	app.set('view options', { layout: false });
 
 	app.get('/', function(req, res)
 	{
@@ -22,7 +23,7 @@ exports.createServer = function(
 			game_id = '';
 		}
 
-		res.render('boardwar.ejs',
+		res.render('boardwar.hbs',
 		{
 			host:        debug ? 'localhost' : os.hostname(),
 			port:        port,
@@ -32,8 +33,7 @@ exports.createServer = function(
 			player_name: game_id && games[ game_id ] && games[ game_id ].player[ player_id ] && games[ game_id ].player[ player_id ].name,
 			home_url:    game_config.home_url,
 			css:         game_config.css,
-			img:         game_config.images,
-			layout:      false
+			img:         game_config.images
 		});
 	});
 

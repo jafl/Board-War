@@ -1,5 +1,5 @@
-var YUI = require('yui3').YUI;
-YUI().use('oop', function(Y) {
+var YUI = require('yui').YUI;
+YUI({useSync: true}).use('oop', function(Y) {
 "use strict";
 
 var util = require('./util.js');
