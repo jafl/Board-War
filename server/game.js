@@ -1,12 +1,18 @@
-var YUI = require('yui').YUI;
-YUI({useSync: true}).use('oop', function(Y) {
 "use strict";
 
-var mod_bw_util = require('./util.js');
+var Y = require('yui').YUI(
+{
+	useSync: true,
+	gallery: 'gallery-2012.04.26-15-49'
+})
+.use
+(
+	'oop'
+);
 
-var game_cull_interval = 24 * 3600 * 1000;	// 1 day (ms)
-
-var game_count = 0;
+var mod_bw_util        = require('./util.js'),
+	game_cull_interval = 24 * 3600 * 1000,	// 1 day (ms)
+	game_count         = 0;
 
 exports.init = function(
 	/* map */ config)
@@ -200,5 +206,3 @@ exports.configureSocket = function(
 		}
 	});
 };
-
-});

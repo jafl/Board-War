@@ -1,6 +1,14 @@
-var YUI = require('yui').YUI;
-YUI({useSync: true}).use('oop', function(Y) {
 "use strict";
+
+var Y = require('yui').YUI(
+{
+	useSync: true,
+	gallery: 'gallery-2012.04.26-15-49'
+})
+.use
+(
+	'oop'
+);
 
 var mod_fs    = require('fs'),
 	mod_board = require('./board.js');
@@ -90,5 +98,3 @@ exports.load = function(
 
 	return config;
 };
-
-});
