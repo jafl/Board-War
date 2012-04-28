@@ -2,8 +2,7 @@
 
 var Y = require('yui').YUI(
 {
-	useSync: true,
-	gallery: 'gallery-2012.04.26-15-49'
+	useSync: true
 })
 .use
 (
