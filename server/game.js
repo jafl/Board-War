@@ -20,7 +20,7 @@ exports.init = function(
 
 	setInterval(function()
 	{
-		var limit = new Date().getTime() - game_cull_interval;
+		var limit = Date.now() - game_cull_interval;
 		var dead  = [];
 		Y.each(games, function(g, id)
 		{
