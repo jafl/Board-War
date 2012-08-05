@@ -1,3 +1,5 @@
+"use strict";
+
 var mod_os      = require('os'),
 	mod_express = require('express');
 

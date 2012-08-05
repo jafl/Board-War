@@ -1,3 +1,5 @@
+"use strict";
+
 var connector_half_width = 0.05;
 
 function squareId(

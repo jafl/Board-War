@@ -1,3 +1,5 @@
+"use strict";
+
 var mod_crypto = require('crypto');
 
 exports.guid = function()

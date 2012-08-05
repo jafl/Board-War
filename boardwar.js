@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var YUI = require('yui').YUI;
-YUI().use('json', function(Y)
-{
+YUI().use('json', function(Y) {
+"use strict";
 
 // options
 
