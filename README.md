@@ -18,10 +18,11 @@ not try to foster any illusions.
 Installation
 ------------
 
-Install nodejs and then install these packages:
+Install nodejs >= 0.8.0 and then install these packages:
 
     cd Board-War
-    npm install yui socket.io express hbs optimist long-stack-traces
+    npm install yui@3.6.0 socket.io express@2.5.11 hbs handlebars \
+        optimist long-stack-traces
 
 Usage
 -----
