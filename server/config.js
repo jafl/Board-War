@@ -53,7 +53,7 @@ exports.load = function(
 
 	// game
 
-	var data = mod_fs.readFileSync(path + '/game', 'utf-8');
+	var data = mod_fs.readFileSync(path + '/game', 'utf8');
 
 	config.title     = string('title', data);
 	config.home_url  = string('homeURL', data) || 'https://github.com/jafl/Board-War';
@@ -61,21 +61,21 @@ exports.load = function(
 
 	// player
 
-	data = mod_fs.readFileSync(path + '/player', 'utf-8');
+	data = mod_fs.readFileSync(path + '/player', 'utf8');
 
 	config.min_players = number('min', data, 2);
 	config.max_players = number('max', data, 8);
 
 	// board
 
-	data = Y.Lang.trim(mod_fs.readFileSync(path + '/board', 'utf-8')).split(/\s*%%\s*/);
+	data = Y.Lang.trim(mod_fs.readFileSync(path + '/board', 'utf8')).split(/\s*%%\s*/);
 
 	config.board      = mod_board.create(data[0].split('\n'));
 	config.board_code = data[1];
 
 	// styling
 
-	config.css = mod_fs.readFileSync(path + '/style.css', 'utf-8')
+	config.css = mod_fs.readFileSync(path + '/style.css', 'utf8')
 
 	// images -- send using data: format
 
