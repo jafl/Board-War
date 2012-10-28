@@ -45,12 +45,15 @@ var games    = mod_game.init(game_config);
 // server
 
 var mod_server = require('./server/server.js');
-var app        = mod_server.createServer(argv.p, game_config, games, debug);
+var app        = mod_server.createApp(argv.p, game_config, games, debug);
+
+var server = require('http').createServer(app);
+server.listen(argv.p);
 
 // sockets
 
 var mod_io = require('socket.io'),
-	io     = mod_io.listen(app);
+	io     = mod_io.listen(server);
 
 io.set('log level', 1);
 

@@ -1,19 +1,21 @@
 "use strict";
 
 var mod_os      = require('os'),
-	mod_express = require('express');
+	mod_express = require('express'),
+	mod_hbs     = require('express-hbs');
 
-exports.createServer = function(
+exports.createApp = function(
 	/* int */	port,
 	/* map */	game_config,
 	/* map */	games,
 	/* bool */	debug)
 {
-	var app = mod_express.createServer();
+	var app = mod_express();
 
-	app.use(mod_express.cookieParser());
 	app.use(mod_express.static(__dirname + '/../client'));
-	app.set('view options', { layout: false });
+	app.use(mod_express.cookieParser());
+
+	app.engine('hbs', mod_hbs.express3({ partialsDir: __dirname + '/../views/partials' }));
 
 	app.get('/', function(req, res)
 	{
@@ -55,6 +57,5 @@ exports.createServer = function(
 		res.json(null);
 	});
 
-	app.listen(port);
 	return app;
 };

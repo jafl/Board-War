@@ -21,7 +21,7 @@ Installation
 Install nodejs >= 0.8.0 and then install these packages:
 
     cd Board-War
-    npm install yui@3.6.0 socket.io express@2.5.11 hbs handlebars \
+    npm install yui@3.6.0 socket.io express express-hbs \
         optimist long-stack-traces
 
 Usage
