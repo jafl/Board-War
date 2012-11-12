@@ -15,7 +15,7 @@ exports.createApp = function(
 	app.use(mod_express.static(__dirname + '/../client'));
 	app.use(mod_express.cookieParser());
 
-	app.engine('hbs', mod_hbs.express3({ partialsDir: __dirname + '/../views/partials' }));
+	app.engine('hbs', mod_hbs.express3({}));
 
 	app.get('/', function(req, res)
 	{
