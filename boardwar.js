@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var YUI = require('yui').YUI;
-YUI().use('json', function(Y) {
+YUI().use('json', 'oop', function(Y) {
 "use strict";
 
 // options
@@ -45,7 +45,7 @@ var games    = mod_game.init(game_config);
 // server
 
 var mod_server = require('./server/server.js');
-var app        = mod_server.createApp(argv.p, game_config, games, debug);
+var app        = mod_server.createApp(Y, argv.p, game_config, games, debug);
 
 var server = require('http').createServer(app);
 server.listen(argv.p);

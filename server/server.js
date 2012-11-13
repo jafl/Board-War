@@ -2,20 +2,41 @@
 
 var mod_os      = require('os'),
 	mod_express = require('express'),
-	mod_hbs     = require('express-hbs');
+	mod_hbs     = require('express-hbs'),
+
+	Y;
 
 exports.createApp = function(
+	/* Y */		y,
 	/* int */	port,
 	/* map */	game_config,
 	/* map */	games,
 	/* bool */	debug)
 {
+	Y = y;
+
 	var app = mod_express();
 
 	app.use(mod_express.static(__dirname + '/../client'));
 	app.use(mod_express.cookieParser());
 
 	app.engine('hbs', mod_hbs.express3({}));
+
+	var host = 'localhost';
+	Y.some(mod_os.networkInterfaces(), function(list, name)
+	{
+		if (/^en[0-9]+$/.test(name))
+		{
+			return Y.some(list, function(info)
+			{
+				if (info.family == 'IPv4')
+				{
+					host = info.address;
+					return true;
+				}
+			});
+		}
+	});
 
 	app.get('/', function(req, res)
 	{
@@ -29,7 +50,7 @@ exports.createApp = function(
 
 		res.render('boardwar.hbs',
 		{
-			host:        debug ? 'localhost' : mod_os.hostname(),
+			host:        host,
 			port:        port,
 			title:       game_config.title,
 			game_id:     game_id,
