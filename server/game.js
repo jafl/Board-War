@@ -1,21 +1,17 @@
 "use strict";
 
-var Y = require('yui').YUI(
-{
-	useSync: true
-})
-.use
-(
-	'oop'
-);
-
 var mod_bw_util        = require('./util.js'),
 	game_cull_interval = 24 * 3600 * 1000,	// 1 day (ms)
-	game_count         = 0;
+	game_count         = 0,
+
+	Y;
 
 exports.init = function(
-	/* map */ config)
+	/* Y */		y,
+	/* map */	config)
 {
+	Y = y;
+
 	var games = {};
 
 	setInterval(function()

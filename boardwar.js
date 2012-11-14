@@ -35,12 +35,12 @@ if (debug)
 }
 
 var mod_config  = require('./server/config.js');
-var game_config = mod_config.load(argv.config);
+var game_config = mod_config.load(Y, argv.config);
 
 // games
 
 var mod_game = require('./server/game.js');
-var games    = mod_game.init(game_config);
+var games    = mod_game.init(Y, game_config);
 
 // server
 

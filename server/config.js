@@ -1,16 +1,9 @@
 "use strict";
 
-var Y = require('yui').YUI(
-{
-	useSync: true
-})
-.use
-(
-	'oop'
-);
-
 var mod_fs    = require('fs'),
-	mod_board = require('./board.js');
+	mod_board = require('./board.js'),
+
+	Y;
 
 function raw_string(
 	/* string */ name,
@@ -47,8 +40,11 @@ function number(
 }
 
 exports.load = function(
-	/* string */ path)
+	/* Y */			y,
+	/* string */	path)
 {
+	Y = y;
+
 	var config = {};
 
 	// game
