@@ -1,7 +1,7 @@
 "use strict";
 
 var mod_fs    = require('fs'),
-	mod_board = require('./board.js'),
+	mod_board = require('./board'),
 
 	Y;
 

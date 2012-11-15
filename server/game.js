@@ -1,6 +1,6 @@
 "use strict";
 
-var mod_bw_util        = require('./util.js'),
+var mod_bw_util        = require('./util'),
 	game_cull_interval = 24 * 3600 * 1000,	// 1 day (ms)
 	game_count         = 0,
 

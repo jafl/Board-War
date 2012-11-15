@@ -34,17 +34,17 @@ if (debug)
 	require('long-stack-traces');
 }
 
-var mod_config  = require('./server/config.js');
+var mod_config  = require('./server/config');
 var game_config = mod_config.load(Y, argv.config);
 
 // games
 
-var mod_game = require('./server/game.js');
+var mod_game = require('./server/game');
 var games    = mod_game.init(Y, game_config);
 
 // server
 
-var mod_server = require('./server/server.js');
+var mod_server = require('./server/server');
 var app        = mod_server.createApp(Y, argv.p, game_config, games, debug);
 
 var server = require('http').createServer(app);
