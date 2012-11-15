@@ -28,7 +28,7 @@ exports.init = function(
 
 		Y.each(dead, function(id)
 		{
-			console.log('game %s cancelled', id);
+			console.log('game %s expired', id);
 			delete games[id];
 			game_count--;
 		});
