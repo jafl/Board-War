@@ -1,8 +1,9 @@
 "use strict";
 
-var mod_bw_util        = require('./util'),
-	game_cull_interval = 24 * 3600 * 1000,	// 1 day (ms)
-	game_count         = 0,
+var mod_bw_util         = require('./util'),
+	game_cull_interval  = 24 * 3600 * 1000,	// 1 day (ms)
+	game_check_interval = 3600 * 1000,		// 1 hour (ms)
+	game_count          = 0,
 
 	Y;
 
@@ -33,7 +34,7 @@ exports.init = function(
 			game_count--;
 		});
 	},
-	3600 * 1000);	// 1 hour (ms)
+	game_check_interval);
 
 	return games;
 };
