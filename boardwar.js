@@ -14,6 +14,12 @@ var argv = require('optimist')
 		demand:   true,
 		describe: 'Path to game configuration'
 	})
+	.option('h',
+	{
+		alias:    'hostname',
+		default:  'localhost',
+		describe: 'Hostname to which clients should connect'
+	})
 	.option('p',
 	{
 		alias:    'port',
@@ -45,7 +51,7 @@ var games    = mod_game.init(Y, game_config);
 // server
 
 var mod_server = require('./server/server');
-var app        = mod_server.createApp(Y, argv.p, game_config, games, debug);
+var app        = mod_server.createApp(Y, argv.h, argv.p, game_config, games, debug);
 
 var server = require('http').createServer(app);
 server.listen(argv.p);

@@ -7,11 +7,12 @@ var mod_os      = require('os'),
 	Y;
 
 exports.createApp = function(
-	/* Y */		y,
-	/* int */	port,
-	/* map */	game_config,
-	/* map */	games,
-	/* bool */	debug)
+	/* Y */			y,
+	/* string */	host,
+	/* int */		port,
+	/* map */		game_config,
+	/* map */		games,
+	/* bool */		debug)
 {
 	Y = y;
 
@@ -22,21 +23,23 @@ exports.createApp = function(
 
 	app.engine('hbs', mod_hbs.express3({}));
 
-	var host = 'localhost';
-	Y.some(mod_os.networkInterfaces(), function(list, name)
+	if (host == 'localhost')
 	{
-		if (/^en[0-9]+$/.test(name))
+		Y.some(mod_os.networkInterfaces(), function(list, name)
 		{
-			return Y.some(list, function(info)
+			if (/^en[0-9]+$/.test(name))
 			{
-				if (info.family == 'IPv4')
+				return Y.some(list, function(info)
 				{
-					host = info.address;
-					return true;
-				}
-			});
-		}
-	});
+					if (info.family == 'IPv4')
+					{
+						host = info.address;
+						return true;
+					}
+				});
+			}
+		});
+	}
 
 	app.get('/', function(req, res)
 	{
