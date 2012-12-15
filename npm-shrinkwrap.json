@@ -1,0 +1,143 @@
+{
+  "dependencies": {
+    "express": {
+      "version": "3.0.4",
+      "dependencies": {
+        "connect": {
+          "version": "2.7.1",
+          "dependencies": {
+            "qs": {
+              "version": "0.5.1"
+            },
+            "formidable": {
+              "version": "1.0.11"
+            },
+            "crc": {
+              "version": "0.2.0"
+            },
+            "bytes": {
+              "version": "0.1.0"
+            },
+            "pause": {
+              "version": "0.0.1"
+            }
+          }
+        },
+        "commander": {
+          "version": "0.6.1"
+        },
+        "range-parser": {
+          "version": "0.0.4"
+        },
+        "mkdirp": {
+          "version": "0.3.3"
+        },
+        "cookie": {
+          "version": "0.0.5"
+        },
+        "buffer-crc32": {
+          "version": "0.1.1"
+        },
+        "fresh": {
+          "version": "0.1.0"
+        },
+        "methods": {
+          "version": "0.0.1"
+        },
+        "send": {
+          "version": "0.1.0",
+          "dependencies": {
+            "mime": {
+              "version": "1.2.6"
+            }
+          }
+        },
+        "cookie-signature": {
+          "version": "0.0.1"
+        },
+        "debug": {
+          "version": "0.7.0"
+        }
+      }
+    },
+    "express-hbs": {
+      "version": "0.1.2-pre",
+      "dependencies": {
+        "handlebars": {
+          "version": "1.0.7",
+          "dependencies": {
+            "uglify-js": {
+              "version": "1.2.6"
+            }
+          }
+        }
+      }
+    },
+    "long-stack-traces": {
+      "version": "0.1.2"
+    },
+    "optimist": {
+      "version": "0.3.5",
+      "dependencies": {
+        "wordwrap": {
+          "version": "0.0.2"
+        }
+      }
+    },
+    "socket.io": {
+      "version": "0.9.13",
+      "dependencies": {
+        "socket.io-client": {
+          "version": "0.9.11",
+          "dependencies": {
+            "uglify-js": {
+              "version": "1.2.5"
+            },
+            "ws": {
+              "version": "0.4.24",
+              "dependencies": {
+                "commander": {
+                  "version": "0.6.1"
+                },
+                "tinycolor": {
+                  "version": "0.0.1"
+                },
+                "options": {
+                  "version": "0.0.3"
+                }
+              }
+            },
+            "xmlhttprequest": {
+              "version": "1.4.2"
+            },
+            "active-x-obfuscator": {
+              "version": "0.0.1",
+              "dependencies": {
+                "zeparser": {
+                  "version": "0.0.5"
+                }
+              }
+            }
+          }
+        },
+        "policyfile": {
+          "version": "0.0.4"
+        },
+        "base64id": {
+          "version": "0.1.0"
+        },
+        "redis": {
+          "version": "0.7.3"
+        }
+      }
+    },
+    "yui": {
+      "version": "3.8.0",
+      "dependencies": {
+        "request": {
+          "version": "2.9.202"
+        }
+      }
+    }
+  }
+}

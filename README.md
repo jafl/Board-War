@@ -18,11 +18,7 @@ not try to foster any illusions.
 Installation
 ------------
 
-Install nodejs >= 0.8.0 and then install these packages:
-
-    cd Board-War
-    npm install yui@3.6.0 socket.io express express-hbs \
-        optimist long-stack-traces
+Install nodejs >= 0.8.0 and npm and then run `npm install`.
 
 Usage
 -----
